@@ -1,1 +1,144 @@
-<h1>Hellow!</h1>
+<!DOCTYPE HTML>
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <!-- Hi, Jon Here. Please DELETE the two <script> tags below if you use this HTML, otherwise my analytics will track your page -->
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+<!--   <script async src="https://www.googletagmanager.com/gtag/js?id=UA-7580334-2"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-7580334-2');
+  </script>
+ -->
+
+  <title>Delving-Deeper-into-Anti-aliasing-in-ConvNets</title>
+  
+  <meta name="author" content="Xueyan Zou">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <link rel="stylesheet" type="text/css" href="stylesheet.css">
+  <link rel="icon" type="image/png" href="xy_images/davis_icon.png">
+</head>
+
+<body>
+  <table style="width:100%;max-width:800px;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
+    <tr style="padding:0px">
+      <td style="padding:0px">
+        <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
+          <tr style="padding:0px">
+            <td style="padding:2.5%;width:100%;vertical-align:middle">
+              <p style="text-align:center">
+                <name>Delving Deeper into Anti-Aliasing in ConvNets</name>
+              </p>
+
+              <p style="text-align:center">
+                <a href="https://maureenzou.github.io/">Xueyan Zou <sup>1</sup> </a> &nbsp&nbsp
+                <a href="http://fanyix.cs.ucdavis.edu/">Fanyi Xiao <sup>1</sup> </a> &nbsp&nbsp
+                <a href="https://chrisding.github.io/">Zhiding Yu <sup>2</sup> </a> &nbsp&nbsp
+                <a href="https://web.cs.ucdavis.edu/~yjlee/">Yong Jae Lee <sup>1</sup> </a> &nbsp&nbsp
+              </p>
+
+              <p style="text-align:center">
+                1. UC Davis &nbsp&nbsp 2. NVIDIA
+              </p>
+
+              <p style="text-align:center">
+                  <a href="https://github.com/MaureenZOU/Delving-Deeper-Into-Anti-Aliasing-in-ConvNets"> [code] </a> &nbsp/&nbsp
+                  <a href="https://github.com/MaureenZOU/Delving-Deeper-Into-Anti-Aliasing-in-ConvNets"> [paper] </a>
+              </p>
+
+
+            </td>
+          </tr>
+        </tbody></table>
+        <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
+            <tr>
+            <td style="padding:20px;width:100%;vertical-align:middle">
+              <heading>Abstract</heading>
+              <p>
+                Aliasing refers to the phenomenon that high frequency signals degenerate into completely different ones after sampling. 
+                It arises as a problem in the context of deep learning as downsampling layers are widely adopted in deep architectures to reduce parameters and computation. 
+                The standard solution is to apply a low-pass filter (e.g., Gaussian blur) before downsampling. 
+                However, it can be suboptimal to apply the same filter across the entire content, as the frequency of feature maps can vary across both spatial locations and feature channels. 
+                To tackle this, we propose an adaptive content-aware low-pass filtering layer, which <b> predicts separate filter weights for each spatial location and channel group </b> of the input feature maps. 
+                We investigate the effectiveness and generalization of the proposed method across multiple tasks including ImageNet classification, COCO instance segmentation, and Cityscapes semantic segmentation. 
+                Qualitative and quantitative results demonstrate that our approach effectively adapts to the different feature frequencies to avoid aliasing while preserving useful information for recognition.
+              </p>
+            </td>
+          </tr>
+        </tbody></table>
+        <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
+
+        <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
+            <tr>
+            <td style="padding:20px;width:100%;vertical-align:middle">
+              <heading>Method</heading>
+              <p>
+              <img src='xy_images/method.png' width="700">
+              </p>
+              <p>
+                (Left) For each spatial location and feature channel group in the input X, we predict a k * k filter w.   
+                (Right) We apply the learned filters on X to obtain content aware anti-aliased features.
+              </p>
+            </td>
+          </tr>
+        </tbody></table>
+        <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
+
+          <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
+            <tr>
+            <td style="padding:20px;width:100%;vertical-align:middle">
+              <heading>Experiments</heading>
+              <p>
+                <a>
+                <b>Image Classification and Domain Generalization</b>
+                </a>
+              </p>
+              <p>
+              <img src='xy_images/image_classification.png' width="700">
+              </p>
+              <p>
+                Image classification (accuracy and consistency) and domain generalization (generalization) results on ImageNet and ImageNet -> ImageNetVID. 
+                We compare to strong ResNet-101 and LPF (low-pass filter, zhang.) baselines. Our method shows consistent improvement in accuracy, consistency, and generalization.                
+              </p>
+              <p>
+                <a>
+                <b>Instance Segmentation</b>
+                </a>
+              </p>
+              <p>
+                <img src='xy_images/instance_segmentation.png' width="700">
+              </p>
+              <p>
+                Instance segmentation results on MS COCO. We compare to Mask R-CNN (Kaiming et al.)  and LPF (low-pass filter, Zhang.). 
+                Our approach consistently improves over the baselines for both mask and box accuracy and consistency.
+              </p>
+              <p>
+                <a>
+                <b>Semantic Segmentation</b>
+                </a>
+              </p>
+              <p>
+                <img src='xy_images/semantic_segmentation.png' width="700">
+              </p>
+              <p>
+                Semantic segmentation results on PASCAL VOC2012 and Cityscapes. 
+                We compare to Deeplab v3+ and LPF (low-pass filter, Zhang.). 
+                Our approach leads to improved accuracy and consistency.
+              </p>
+            </td>
+          </tr>
+        </tbody></table>
+        <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
+
+        <p style="text-align:right">
+        <a>
+        <as>
+          @Webpage borrow from Jon Barron
+        </as>
+        </a>
+        </p>
+
+</body>
+</html>
